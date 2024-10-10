@@ -1,0 +1,25 @@
+*,
+**,
+::before, 
+::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0; 
+    padding: 0; 
+}
+
+.viewport {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    background-color: rgb(188, 224, 224);
+}
+
+.main-container {
+    background-color: rgb(50, 49, 49);
+    height: 500px; 
+    width: 350px; 
+}
