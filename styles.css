@@ -84,8 +84,10 @@ body {
 }
 
 .zero-button {
-    width: 130px; 
-    border-radius: 20px; 
+    justify-content: flex-start;
+    width: 110px; 
+    padding-left: 20px; 
+    border-radius: 40px; 
 }
 
 .upper-button {
