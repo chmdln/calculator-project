@@ -106,6 +106,16 @@ function scaleTextToFit() {
     }
 }
 
+function clear() {
+    let temp = []; 
+    let first = []; 
+    let second = []; 
+    let operator;
+    let res; 
+    displayElem.innerText = 0; 
+    displayElem.style.fontSize = '50px'; 
+}
+
 
 
 
