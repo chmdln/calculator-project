@@ -68,11 +68,11 @@ body {
 }
 
 .display-text {
+    width: 280px; 
     position: absolute; 
     right: 10px; 
     bottom: 5px; 
 }
-
 
 .keyboard-container {
     display: flex; 
