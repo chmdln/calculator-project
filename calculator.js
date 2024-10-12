@@ -49,10 +49,10 @@ document.querySelectorAll(".js-operator-button")
             // assign the operator 
             operator = elem.id;
 
-            // console.log(first); 
-            // console.log(second); 
-            // console.log(temp); 
-            // console.log(operator)
+            console.log(first); 
+            console.log(second); 
+            console.log(temp); 
+            console.log(operator)
             
         })
     })
@@ -107,11 +107,12 @@ function scaleTextToFit() {
 }
 
 function clear() {
-    let temp = []; 
-    let first = []; 
-    let second = []; 
-    let operator;
-    let res; 
+    temp = []; 
+    first = []; 
+    second = []; 
+    operator;
+    res = "";  
+
     displayElem.innerText = 0; 
     displayElem.style.fontSize = '50px'; 
 }
