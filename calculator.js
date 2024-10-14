@@ -1,5 +1,7 @@
 // TO DO 
-// don't toggle for zero 
+// "." dot operator 
+    // - Don't allow more than one dot operator 
+
 // no decimal after dot 
 // allow 0.123 .. numbers 
 // handle plus/minus, after equality was pressed (should be able to toggle)
@@ -44,6 +46,8 @@ document.querySelector(".js-plus-minus-button").addEventListener('click', () => 
 });
 
 function togglePlusMinus() {
+    console.log(sign)
+    console.log(displayElem.innerText)
     if (sign === "+") {
         sign = "-"; 
         displayElem.innerText = sign + displayElem.innerText; 
@@ -53,8 +57,9 @@ function togglePlusMinus() {
         displayElem.innerText = displayElem.innerText.slice(1,displayElem.innerText.length); 
         temp.shift(); 
     }
+    console.log(sign)
+    console.log(displayElem.innerText)
 }
-
 
 
 document.querySelectorAll(".js-digit-button")
@@ -78,6 +83,18 @@ document.querySelectorAll(".js-digit-button")
             if (elem.innerText === "0" && temp.length === 0) {
                 return 
             }
+
+            // handle '.' operator
+            if (elem.innerText === ".") {
+                if (temp.length === 0) {
+                    temp.push("0"); 
+                }
+
+                if (temp.includes(".")) {
+                    return 
+                }
+            }
+
             temp.push(elem.innerText); 
             displayElem.innerText = temp.join("");
             console.log(displayElem.scrollWidth)
@@ -134,6 +151,9 @@ document.querySelectorAll(".js-operator-button")
             
         })
     })
+
+
+
 
 
 document.getElementById("=").addEventListener('click', (elem) => {
