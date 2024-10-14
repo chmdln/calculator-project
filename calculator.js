@@ -1,5 +1,6 @@
 // TO DO 
-// Fix logic with leading '0' 
+// Pressing % repeatedly
+// Fix +/- toggle with percentages 
 
 
 
@@ -60,8 +61,30 @@ function togglePlusMinus() {
 
 
 document.querySelector('.js-percent-button').addEventListener('click', () => {
+    if (temp.length === 0) {
+        if (isEqualPressed) {
+            // work with 'first'
+            convertToPercent(first); 
+        } else {
+            temp.push("0");
+        }
+         
+    } else {
+        convertToPercent(temp);  
+    }
 
+    console.log(temp)
 })
+
+function convertToPercent(array) {
+    let val = Number(array.join("")); 
+    val = val/100; 
+    valToString = val.toString();  
+    temp = valToString.split(""); 
+    displayElem.innerText = valToString;
+    scaleTextToFit(); 
+
+}
 
 
 document.querySelectorAll(".js-digit-button")
