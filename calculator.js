@@ -83,6 +83,12 @@ document.querySelectorAll(".js-digit-button")
             console.log(displayElem.scrollWidth)
 
             scaleTextToFit(); 
+
+            console.log(first); 
+            console.log(second); 
+            console.log(temp); 
+            console.log(operator)
+
         })
     })
 
@@ -103,6 +109,7 @@ document.querySelectorAll(".js-operator-button")
                 // button was also operator thus and temp is empty
                 if (temp.length === 0) {
                     operator = elem.id 
+                    console.log(operator)
                     return 
                 }
                 second = [...temp];  
@@ -120,30 +127,30 @@ document.querySelectorAll(".js-operator-button")
             // reset sign
             sign = "+"; 
 
-            // console.log(first); 
-            // console.log(second); 
-            // console.log(temp); 
-            // console.log(operator)
+            console.log(first); 
+            console.log(second); 
+            console.log(temp); 
+            console.log(operator)
             
         })
     })
 
 
 document.getElementById("=").addEventListener('click', (elem) => {
-    isEqualPressed = true; 
-
-    second = [...temp]; 
-    res = operate(first, second, operator);
-    first = [res];  
-    second = []; 
-    temp = []; 
-    // reset sign 
-    sign = "+"; 
-
-    displayElem.innerText = res; 
-    console.log(displayElem.scrollWidth)
-
-    scaleTextToFit(); 
+    if (first.length !== 0 && temp.length !== 0) {
+        isEqualPressed = true; 
+        second = [...temp]; 
+        res = operate(first, second, operator);
+        first = [res];  
+        second = []; 
+        temp = []; 
+        // reset sign 
+        sign = "+"; 
+    
+        displayElem.innerText = res; 
+        scaleTextToFit(); 
+        console.log("=")
+    }
 })
 
 
