@@ -201,6 +201,7 @@ function _clear() {
     second = []; 
     operator = "";
     res = "";  
+    isEqualPressed = false; 
 
     displayElem.innerText = 0; 
     displayElem.style.fontSize = '50px'; 
