@@ -1,13 +1,7 @@
 // TO DO 
-// "." dot operator 
-    // - Don't allow more than one dot operator 
+// Fix logic with leading '0' 
 
-// no decimal after dot 
-// allow 0.123 .. numbers 
-// handle plus/minus, after equality was pressed (should be able to toggle)
-// make sure reset sign after each op 
-// handle logic for pressing operators twice
-// pressing numbers after equality, should reset operator to none; 
+
 
 let temp = []; 
 let first = []; 
@@ -26,6 +20,7 @@ document.querySelector(".js-ac-button").addEventListener('click', _clear);
 
 document.querySelector(".js-plus-minus-button").addEventListener('click', () => {
     if (temp.length === 0) {
+        // can toggle "+/-" if "=" as pressed 
         if (isEqualPressed) {
             let strRes = first[0].toString(); 
             if (strRes[0] != "-") {
@@ -37,6 +32,7 @@ document.querySelector(".js-plus-minus-button").addEventListener('click', () => 
                 displayElem.innerText = displayElem.innerText.slice(1,displayElem.innerText.length);
             }
         } else {
+        // else can't toggle
             return
         }
          
@@ -44,6 +40,7 @@ document.querySelector(".js-plus-minus-button").addEventListener('click', () => 
         togglePlusMinus();
     }
 });
+
 
 function togglePlusMinus() {
     console.log(sign)
@@ -60,6 +57,11 @@ function togglePlusMinus() {
     console.log(sign)
     console.log(displayElem.innerText)
 }
+
+
+document.querySelector('.js-percent-button').addEventListener('click', () => {
+
+})
 
 
 document.querySelectorAll(".js-digit-button")
@@ -80,8 +82,10 @@ document.querySelectorAll(".js-digit-button")
             }
 
             // handle leading zero
-            if (elem.innerText === "0" && temp.length === 0) {
-                return 
+            if (typeof Number(elem.innerText === 'number')) {
+                if (temp[0] === "0" && !temp.includes(".")) {
+                    temp.shift(); 
+                }
             }
 
             // handle '.' operator
@@ -169,7 +173,6 @@ document.getElementById("=").addEventListener('click', (elem) => {
     
         displayElem.innerText = res; 
         scaleTextToFit(); 
-        console.log("=")
     }
 })
 
