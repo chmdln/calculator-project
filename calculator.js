@@ -1,6 +1,5 @@
 // TO DO 
-// Pressing % repeatedly
-// Fix +/- toggle with percentages 
+// Double check +/- toggle with percentages
 
 
 
