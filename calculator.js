@@ -1,8 +1,3 @@
-// TO DO 
-// Double check +/- toggle with percentages
-
-
-
 let temp = []; 
 let first = []; 
 let second = []; 
@@ -15,10 +10,27 @@ let isEqualPressed = false;
 let displayContainerElem = document.querySelector(".display-container"); 
 let displayElem = document.querySelector(".js-display-text"); 
 
-document.querySelector(".js-ac-button").addEventListener('click', _clear); 
+
+document.querySelector(".js-ac-button")
+    .addEventListener('click', _clear); 
+
+window.addEventListener('keydown', (event) => {
+    if (event.key === "c" | event.key === "C") {
+        _clear(); 
+    }
+})
+
+document.querySelector(".js-plus-minus-button")
+    .addEventListener('click', useSignOperator);
+
+window.addEventListener('keydown', (event) => {
+    if (event.key === "_") {
+        useSignOperator(); 
+    }
+})
 
 
-document.querySelector(".js-plus-minus-button").addEventListener('click', () => {
+function useSignOperator() {
     if (temp.length === 0) {
         // can toggle "+/-" if "=" as pressed 
         if (isEqualPressed) {
@@ -39,8 +51,7 @@ document.querySelector(".js-plus-minus-button").addEventListener('click', () => 
     } else {
         togglePlusMinus();
     }
-});
-
+}
 
 function togglePlusMinus() {
     console.log(sign)
@@ -59,7 +70,16 @@ function togglePlusMinus() {
 }
 
 
-document.querySelector('.js-percent-button').addEventListener('click', () => {
+document.querySelector('.js-percent-button')
+    .addEventListener('click', usePercentOperator)
+
+window.addEventListener('keydown', (event) => {
+    if (event.key === "%") {
+        usePercentOperator(); 
+    }
+})
+
+function usePercentOperator() {
     if (temp.length === 0) {
         if (isEqualPressed) {
             // work with 'first'
@@ -71,13 +91,11 @@ document.querySelector('.js-percent-button').addEventListener('click', () => {
     } else {
         temp = convertToPercent(temp);  
     }
-
-    console.log(temp)
-})
+}
 
 function convertToPercent(array) {
     let val = Number(array.join("")); 
-    val = val/100; 
+    val = checkAndTruncate(val/100); 
     valToString = val.toString();  
     array = valToString.split(""); 
     displayElem.innerText = valToString;
@@ -89,104 +107,183 @@ function convertToPercent(array) {
 document.querySelectorAll(".js-digit-button")
     .forEach((elem) => {
         elem.addEventListener("click", () => {
-            
-            // if we press a number after equality, 
-            // reset all variables 
-            if (isEqualPressed) {
-                isEqualPressed = false; 
-
-                temp = []; 
-                first = []; 
-                second = []; 
-                operator = "";
-                res = "";  
-                sign = "+";  
-            }
-
-            // handle leading zero
-            if (typeof Number(elem.innerText === 'number')) {
-                if (temp[0] === "0" && !temp.includes(".")) {
-                    temp.shift(); 
-                }
-            }
-
-            // handle '.' operator
-            if (elem.innerText === ".") {
-                if (temp.length === 0) {
-                    temp.push("0"); 
-                }
-
-                if (temp.includes(".")) {
-                    return 
-                }
-            }
-
-            temp.push(elem.innerText); 
-            displayElem.innerText = temp.join("");
-            console.log(displayElem.scrollWidth)
-
-            scaleTextToFit(); 
-
-            console.log(first); 
-            console.log(second); 
-            console.log(temp); 
-            console.log(operator)
-
+            useDigit(elem)
         })
     })
 
+window.addEventListener('keydown', (event) => {
+    let digits = "0123456789."; 
+    if (digits.includes(event.key)) {
+        useDigitKeyboard(event); 
+    }
+})
+
+
+function useDigitKeyboard(event) {
+    if (isEqualPressed) {
+        isEqualPressed = false; 
+
+        temp = []; 
+        first = []; 
+        second = []; 
+        operator = "";
+        res = "";  
+        sign = "+";  
+    }
+
+    // handle leading zero
+    if (typeof Number(event.key) === 'number') {
+        if (temp[0] === "0" && !temp.includes(".")) {
+            temp.shift(); 
+        }
+    }
+
+    // handle '.' operator
+    if (event.key === ".") {
+        if (temp.length === 0) {
+            temp.push("0"); 
+        }
+
+        if (temp.includes(".")) {
+            return 
+        }
+    }
+
+    temp.push(event.key); 
+    displayElem.innerText = temp.join("");
+    scaleTextToFit();
+}
+
+
+function useDigit(elem) {
+    // if we press a number after equality, 
+    // reset all variables 
+    if (isEqualPressed) {
+        isEqualPressed = false; 
+
+        temp = []; 
+        first = []; 
+        second = []; 
+        operator = "";
+        res = "";  
+        sign = "+";  
+    }
+
+    // handle leading zero
+    if (typeof Number(elem.innerText) === 'number') {
+        if (temp[0] === "0" && !temp.includes(".")) {
+            temp.shift(); 
+        }
+    }
+
+    // handle '.' operator
+    if (elem.innerText === ".") {
+        if (temp.length === 0) {
+            temp.push("0"); 
+        }
+
+        if (temp.includes(".")) {
+            return 
+        }
+    }
+
+    temp.push(elem.innerText); 
+    displayElem.innerText = temp.join("");
+    console.log(displayElem.scrollWidth)
+
+    scaleTextToFit();
+}
 
 
 document.querySelectorAll(".js-operator-button")
     .forEach((elem) => {
         elem.addEventListener("click", () => {
-            if (isEqualPressed) {
-                isEqualPressed = false; 
-            }
-
-            if (first.length === 0) {
-                first = [...temp]; 
-                temp = [];  
-            } else if (second.length === 0) {
-                // dont' do anything, if the last pressed
-                // button was also operator thus and temp is empty
-                if (temp.length === 0) {
-                    operator = elem.id 
-                    console.log(operator)
-                    return 
-                }
-                second = [...temp];  
-                res = operate(first, second, operator);
-                first = [res];  
-                second = []; 
-                temp = [];  
-
-                displayElem.innerText = res; 
-                scaleTextToFit(); 
-            }
-            
-            // assign the operator 
-            operator = elem.id;
-            // reset sign
-            sign = "+"; 
-
-            console.log(first); 
-            console.log(second); 
-            console.log(temp); 
-            console.log(operator)
-            
+            useOperator(elem); 
         })
     })
 
+window.addEventListener('keydown', (event) => {
+    let events = "+-/*"; 
+    if (events.includes(event.key)) {
+        useOperatorKeyboard(event); 
+    }
+})
+
+function useOperatorKeyboard(event) {
+    if (isEqualPressed) {
+        isEqualPressed = false; 
+    }
+
+    if (first.length === 0) {
+        first = [...temp]; 
+        temp = [];  
+    } else if (second.length === 0) {
+        if (temp.length === 0) {
+            operator = event.key
+            return 
+        }
+        second = [...temp];  
+        res = operate(first, second, operator);
+        first = [res];  
+        second = []; 
+        temp = [];  
+
+        displayElem.innerText = res; 
+        scaleTextToFit(); 
+    }
+    
+    // assign the operator 
+    operator = event.key;
+    // reset sign
+    sign = "+"; 
+}
+
+
+function useOperator(elem) {
+    if (isEqualPressed) {
+        isEqualPressed = false; 
+    }
+
+    if (first.length === 0) {
+        first = [...temp]; 
+        temp = [];  
+    } else if (second.length === 0) {
+        // dont' do anything, if the last pressed
+        // button was also operator thus and temp is empty
+        if (temp.length === 0) {
+            operator = elem.id 
+            console.log(operator)
+            return 
+        }
+        second = [...temp];  
+        res = operate(first, second, operator);
+        first = [res];  
+        second = []; 
+        temp = [];  
+
+        displayElem.innerText = res; 
+        scaleTextToFit(); 
+    }
+    
+    // assign the operator 
+    operator = elem.id;
+    // reset sign
+    sign = "+"; 
+}
 
 
 
+document.getElementById("=").addEventListener('click', useEqualityOperator); 
+window.addEventListener('keydown', (event) => {
+    if (event.key === "Enter") {
+        useEqualityOperator(); 
+    }
+})
 
-document.getElementById("=").addEventListener('click', (elem) => {
+function useEqualityOperator() {
     if (first.length !== 0 && temp.length !== 0) {
         isEqualPressed = true; 
         second = [...temp]; 
-        console.log(second)
         res = operate(first, second, operator);
         first = [res];  
         second = []; 
@@ -197,7 +294,7 @@ document.getElementById("=").addEventListener('click', (elem) => {
         displayElem.innerText = res; 
         scaleTextToFit(); 
     }
-})
+}
 
 
 function operate(arr1, arr2, op) {
