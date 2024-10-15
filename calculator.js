@@ -63,13 +63,13 @@ document.querySelector('.js-percent-button').addEventListener('click', () => {
     if (temp.length === 0) {
         if (isEqualPressed) {
             // work with 'first'
-            convertToPercent(first); 
+            first = convertToPercent(first); 
         } else {
             temp.push("0");
         }
          
     } else {
-        convertToPercent(temp);  
+        temp = convertToPercent(temp);  
     }
 
     console.log(temp)
@@ -79,10 +79,10 @@ function convertToPercent(array) {
     let val = Number(array.join("")); 
     val = val/100; 
     valToString = val.toString();  
-    temp = valToString.split(""); 
+    array = valToString.split(""); 
     displayElem.innerText = valToString;
     scaleTextToFit(); 
-
+    return array
 }
 
 
@@ -186,6 +186,7 @@ document.getElementById("=").addEventListener('click', (elem) => {
     if (first.length !== 0 && temp.length !== 0) {
         isEqualPressed = true; 
         second = [...temp]; 
+        console.log(second)
         res = operate(first, second, operator);
         first = [res];  
         second = []; 
@@ -203,6 +204,8 @@ function operate(arr1, arr2, op) {
     let output;
     let val1 = Number(arr1.join("")); 
     let val2 = Number(arr2.join(""));  
+    // console.log(typeof val1)
+    // console.log(typeof val2)
     
     if (op === "+") {
         output = val1 + val2
@@ -213,6 +216,7 @@ function operate(arr1, arr2, op) {
     } else if (op === "*") {
         output = val1 * val2
     } 
+    // console.log(output)
     return checkAndTruncate(output)
 }
 
@@ -224,8 +228,9 @@ function checkAndTruncate(res) {
 
     if (temp.includes("e")) {
         index = temp.indexOf("e"); 
-        num1 = temp.slice(0, 4); 
-        num2 = temp.slice(index-1, temp.length); 
+        let sub = temp.slice(0,index).length 
+        num1 = temp.slice(0, Math.min(4,sub)); 
+        num2 = temp.slice(index, temp.length); 
         return Number(num1+num2) 
     }
     return res 
