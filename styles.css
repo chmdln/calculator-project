@@ -97,14 +97,18 @@ body {
     background-color: rgb(86, 83, 83); 
 }
 
+.primary-button:active {
+    background-color: rgb(164, 164, 164);
+}
+
 .button {
     width: 60px; 
     border-radius: 50%;
 }
 
-/* .button:active {
+.button:active {
     transform: scale(.95);  
-} */
+}
 
 .zero-button {
     justify-content: flex-start;
@@ -116,6 +120,10 @@ body {
 .upper-button {
     background-color: grey;
     font-size: 22px; 
+}
+
+.upper-button:active {
+    background-color: rgb(175, 175, 175);
 }
 
 .plus-fraction {
@@ -142,4 +150,8 @@ body {
 
 .operator-button {
     background-color: orange;
+}
+
+.operator-button:active {
+    background-color: rgb(251, 210, 134);
 }
